@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+credentials.json
+*_token.json
+*.log
+data/memory/*.json
+data/memory/conversations/
+data/knowledge/chromadb/
+whatsapp/wa_session/
+whatsapp/node_modules/

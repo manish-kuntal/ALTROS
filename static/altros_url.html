@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALTROS Connect</title>
+<style>
+body{background:#020812;color:#00f5ff;font-family:monospace;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;margin:0;}
+h1{font-size:28px;letter-spacing:6px;text-shadow:0 0 20px #00f5ff;margin-bottom:8px;}
+p{color:rgba(0,200,255,0.5);font-size:11px;letter-spacing:2px;margin-bottom:40px;}
+.url-box{background:rgba(0,245,255,0.05);border:1px solid rgba(0,245,255,0.2);border-radius:12px;padding:20px 30px;text-align:center;width:90%;max-width:400px;}
+#url-display{font-size:14px;color:#00f5ff;word-break:break-all;margin-bottom:16px;}
+.btn{display:block;background:linear-gradient(135deg,#0044cc,#00ccff);color:white;text-decoration:none;padding:14px 24px;border-radius:10px;font-size:16px;letter-spacing:2px;margin-top:8px;text-align:center;}
+.status{font-size:11px;color:rgba(0,200,255,0.4);margin-top:20px;}
+</style>
+</head>
+<body>
+<h1>ALTROS</h1>
+<p>AUTONOMOUS · TACTICAL · REASONING · OS</p>
+<div class="url-box">
+  <div id="url-display">Checking connection...</div>
+  <a id="open-btn" class="btn" href="#">OPEN ALTROS</a>
+</div>
+<div class="status" id="status">Fetching ngrok URL...</div>
+
+<script>
+// Ye page laptop pe hi serve hota hai
+// Automatically ngrok URL fetch karta hai
+async function getUrl(){
+  try{
+    const res = await fetch('http://localhost:4040/api/tunnels');
+    const data = await res.json();
+    const url = data.tunnels[0]?.public_url;
+    if(url){
+      document.getElementById('url-display').textContent = url;
+      document.getElementById('open-btn').href = url;
+      document.getElementById('status').textContent = 'Connected! Tap to open ALTROS.';
+    }
+  }catch(e){
+    document.getElementById('url-display').textContent = 'Ngrok chal raha hai? Laptop pe check karo.';
+    document.getElementById('status').textContent = 'Error: ' + e.message;
+  }
+}
+getUrl();
+setInterval(getUrl, 10000);
+</script>
+</body>
+</html>
